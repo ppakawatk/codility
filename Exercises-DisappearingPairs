@@ -1,0 +1,43 @@
+# Time Complexity: O(n)
+# you can write to stdout for debugging purposes, e.g.
+# print("this is a debug message")
+
+def solution(S):
+    n = len(S)
+    mrk = [0] * n
+    if n < 2:
+        return S
+    i = 0
+    j = 1
+    s_min = list(range(n))
+    while i >= 0 and i < n and j >= 0 and j < n:
+        if S[i] == S[j]:
+            mrk[i] = 1
+            mrk[j] = 1
+            if i == 0:
+                s_min[i] = j + 1
+                s_min[j] = j + 1
+                i = j + 1
+                j = i + 1
+            else:
+                if s_min[i-1] < i:
+                    s_min[i] = s_min[i-1]
+                    s_min[j] = s_min[i-1]
+                    i = s_min[i]
+                    j += 1
+                else:
+                    s_min[i] = j + 1
+                    s_min[j] = j + 1
+                    i = s_min[i]
+                    j = i + 1
+                
+        else:
+            i = j
+            j = i + 1
+    
+    ans = ''
+    for k in range(n):
+        if mrk[k] == 0:
+            ans += S[k]
+
+    return ans
